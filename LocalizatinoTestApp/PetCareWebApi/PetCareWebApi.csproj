@@ -1,0 +1,123 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<UserSecretsId>aspnet-TodoListService-03230DB1-5145-408C-A48B-BE3DAFC56C30</UserSecretsId>
+		<WebProject_DirectoryAccessLevelKey>0</WebProject_DirectoryAccessLevelKey>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<UseRazorSourceGenerator>False</UseRazorSourceGenerator>
+
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\Admin\**" />
+		<Compile Remove="Properties\PublishProfiles\**" />
+		<Compile Remove="Properties\ServiceDependencies\**" />
+		<Compile Remove="Resources\ApplicationResource\**" />
+		<Compile Remove="wwwroot\images\**" />
+		<Content Remove="Controllers\Admin\**" />
+		<Content Remove="Properties\PublishProfiles\**" />
+		<Content Remove="Properties\ServiceDependencies\**" />
+		<Content Remove="Resources\ApplicationResource\**" />
+		<Content Remove="wwwroot\images\**" />
+		<EmbeddedResource Remove="Controllers\Admin\**" />
+		<EmbeddedResource Remove="Properties\PublishProfiles\**" />
+		<EmbeddedResource Remove="Properties\ServiceDependencies\**" />
+		<EmbeddedResource Remove="Resources\ApplicationResource\**" />
+		<EmbeddedResource Remove="wwwroot\images\**" />
+		<None Remove="Controllers\Admin\**" />
+		<None Remove="Properties\PublishProfiles\**" />
+		<None Remove="Properties\ServiceDependencies\**" />
+		<None Remove="Resources\ApplicationResource\**" />
+		<None Remove="wwwroot\images\**" />
+		<_WebToolingArtifacts Remove="Properties\PublishProfiles\**" />
+		<_WebToolingArtifacts Remove="Properties\ServiceDependencies\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Controllers\OneTimeBookingPriceController.cs" />
+		<Compile Remove="Controllers\WeeklyBookingPriceController.cs" />
+		<Compile Remove="Helpers\ResponseHelper.cs" />
+		<Compile Remove="Helpers\Routing\SupportedAppLanguages.cs" />
+		<Compile Remove="Localization\StaticResXTranslationProvider.cs" />
+		<Compile Remove="Pages\Error.cshtml.cs" />
+		<Compile Remove="Resources\ApplicationResource.es.Designer.cs" />
+		<Compile Remove="Utils\ConfigurationExtensions.cs" />
+		<Compile Remove="Utils\GeneratedConstants.cs" />
+		<Compile Remove="Utils\GeneratedResourceIdConstants.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Remove="Pages\About.razor" />
+	  <Content Remove="Pages\Error.cshtml" />
+	  <Content Remove="Pages\Faq.razor" />
+	  <Content Remove="Pages\Features.razor" />
+	  <Content Remove="Pages\FetchData.razor" />
+	  <Content Remove="Pages\GetClaims.razor" />
+	  <Content Remove="Pages\GetValuesFromWebApi.razor" />
+	  <Content Remove="Pages\Install.razor" />
+	  <Content Remove="Pages\Language.razor" />
+	  <Content Remove="Pages\Password.razor" />
+	  <Content Remove="Pages\Pricing.razor" />
+	  <Content Remove="Pages\PrivacyStatement.razor" />
+	  <Content Remove="Pages\StripeConnectOnboardingFailed.razor" />
+	  <Content Remove="Pages\StripeConnectOnboardingRequestSubmitted.razor" />
+	  <Content Remove="Pages\StripeSetupCancel.razor" />
+	  <Content Remove="Pages\StripeSetupSuccess.razor" />
+	  <Content Remove="Pages\Support.razor" />
+	  <Content Remove="Pages\TermsOfService.razor" />
+	  <Content Remove="Pages\VersionInfo.razor" />
+	  <Content Remove="Pages\Videos.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="Pages\_Host.cshtml" />
+		<None Include="Pages\_Layout.cshtml" />
+		<None Include="Shared\MainLayout.razor" />
+		<None Include="Shared\NavMenu.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.2" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.5" />
+		<PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.8" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="1.24.1" />
+		<PackageReference Include="Polly" Version="7.2.3" />
+		<PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+		<PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\screenshots\TextMessageOptOut.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	  <Content Update="wwwroot\screenshots\TextMessageOptOutUserSetting.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Localization\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\ApplicationResource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ApplicationResource.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\ApplicationResource.en.resx">
+	    <SubType>Designer</SubType>
+	    <LastGenOutput>ApplicationResource.en.Designer.cs</LastGenOutput>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\ApplicationResource.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ApplicationResource.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+</Project>
