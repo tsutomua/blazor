@@ -31,7 +31,6 @@ internal class Program
 
 
         builder.Services.AddSingleton(logger);
-        logger.TrackEvent("In ConfigureServices...", correlationId);
 
         try
         {
@@ -41,6 +40,9 @@ internal class Program
             builder.Services.AddRazorPages(options =>
             {
                 // decorate all page routes with {culture} e.g. @page "/{culture}..."
+
+                // https://www.learnrazorpages.com/razor-pages/routing#register-additional-routes
+                // Commenting out the following line causes pages not to be localized, but the bottom error message disappears.
                 options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
             });
 
@@ -76,17 +78,17 @@ internal class Program
             options.DefaultRequestCulture = new RequestCulture(culture: "en-us", uiCulture: "en-us");
             options.SupportedCultures = supportedCultures;
             options.SupportedUICultures = supportedCultures;
-            options.FallBackToParentCultures = true;        
+            options.FallBackToParentCultures = true;
             options.RequestCultureProviders.Clear();
 
             // Error at the bottom
-            options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider()
+            options.RequestCultureProviders.Insert(0, new MyRouteDataRequestCultureProvider()
             {
                 Options = options,
             });
 
             //// Sidebar not displayed.
-            options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
+            //options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
         });
 
 

@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestLocalization.Helpers.Routing;
 
-public class RouteDataRequestCultureProvider : RequestCultureProvider
+public class MyRouteDataRequestCultureProvider : RequestCultureProvider
 {
     public override Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
     {
