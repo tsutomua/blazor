@@ -4,20 +4,19 @@ namespace TestLocalization.Helpers.Routing;
 
 public class CultureTemplatePageRouteModelConvention: IPageRouteModelConvention
 {
-    public void Apply(PageRouteModel model)
+    public void Apply(PageRouteModel pageRouteModel)
     {
-        foreach (SelectorModel selector in model.Selectors)
+        foreach (SelectorModel selectorModel in pageRouteModel.Selectors)
         {
-            string template = selector.AttributeRouteModel.Template;
+            string template = selectorModel.AttributeRouteModel.Template;
 
             if (template.StartsWith("MicrosoftIdentity")) continue;  // Skip MicrosoftIdentity pages
 
-            // Prepend {culture}/ to the page routes allow for route-based localization
-            selector.AttributeRouteModel.Order = -1;
-            //selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture:cultureConstraint}", template);
+            selectorModel.AttributeRouteModel.Order = -1;
 
             // Prepend the /{culture?}/ route value to allow for route-based localization
-            selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture?}", template);
+            selectorModel.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture?}", template);
+            //selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture:cultureConstraint}", template);
         }
     }
 }
