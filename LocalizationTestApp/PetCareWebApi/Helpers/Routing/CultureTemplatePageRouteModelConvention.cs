@@ -12,6 +12,8 @@ public class CultureTemplatePageRouteModelConvention: IPageRouteModelConvention
 
             if (template.StartsWith("MicrosoftIdentity")) continue;  // Skip MicrosoftIdentity pages
 
+            //if (template.Contains("blazor")) continue;  // Skip MicrosoftIdentity pages
+
             selectorModel.AttributeRouteModel.Order = -1;
 
             // Prepend the /{culture?}/ route value to allow for route-based localization

@@ -46,7 +46,7 @@ internal class Program
                 options.Conventions.Add(new CultureTemplatePageRouteModelConvention());
             });
 
-            builder.Services.AddServerSideBlazor();
+            builder.Services.AddServerSideBlazor().AddCircuitOptions(x => x.DetailedErrors = true);
             builder.Services.AddHttpClient();
             builder.Services.AddControllers();
         }
