@@ -86,7 +86,7 @@ internal class Program
             });
 
             //// Sidebar not displayed.
-            //options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
+            options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
         });
 
 
