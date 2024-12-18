@@ -11,6 +11,12 @@ public class MyRouteDataRequestCultureProvider : RequestCultureProvider
     public override Task<ProviderCultureResult> DetermineProviderCultureResult(HttpContext httpContext)
     {
         string routeCulture = (string)httpContext.Request.RouteValues["culture"];
+        
+        if (string.IsNullOrWhiteSpace(httpContext.Request.Path.Value))
+        {
+            return Task.FromResult(new ProviderCultureResult(DefaultCulture));
+        }
+        
         string urlCulture = httpContext.Request.Path.Value.Split('/')[1];
 
         // Culture provided in route values
