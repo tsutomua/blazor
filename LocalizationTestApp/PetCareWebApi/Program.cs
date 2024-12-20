@@ -66,7 +66,7 @@ internal class Program
         {
             options.LowercaseUrls = true;
             options.AppendTrailingSlash = false;
-            //options.ConstraintMap.Add("cultureConstraint", typeof(CultureConstraint));
+            options.ConstraintMap.Add("cultureConstraint", typeof(CultureConstraint));
         });
 
         List<string> supportedCultureCodes = builder.Configuration.GetStringValueFromConfig(Constants.SupportedCultureCodes)
@@ -81,13 +81,11 @@ internal class Program
             options.FallBackToParentCultures = true;
             options.RequestCultureProviders.Clear();
 
-            // Error at the bottom
             options.RequestCultureProviders.Insert(0, new MyRouteDataRequestCultureProvider()
             {
                 Options = options,
             });
 
-            //// Sidebar not displayed.
             //options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
         });
 

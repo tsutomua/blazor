@@ -15,8 +15,8 @@ public class CultureTemplatePageRouteModelConvention: IPageRouteModelConvention
             selectorModel.AttributeRouteModel.Order = -1;
 
             // Prepend the /{culture?}/ route value to allow for route-based localization
-            selectorModel.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture?}", template);
-            //selector.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture:cultureConstraint}", template);
+            //selectorModel.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture?}", template);
+            selectorModel.AttributeRouteModel.Template = AttributeRouteModel.CombineTemplates("{culture:cultureConstraint}", template);
         }
     }
 }
