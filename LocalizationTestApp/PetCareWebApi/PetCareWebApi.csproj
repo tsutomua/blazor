@@ -39,7 +39,6 @@
 		<Compile Remove="Controllers\OneTimeBookingPriceController.cs" />
 		<Compile Remove="Controllers\WeeklyBookingPriceController.cs" />
 		<Compile Remove="Helpers\ResponseHelper.cs" />
-		<Compile Remove="Helpers\Routing\CustomRouteDataRequestCultureProvider.cs" />
 		<Compile Remove="Helpers\Routing\SupportedAppLanguages.cs" />
 		<Compile Remove="Localization\StaticResXTranslationProvider.cs" />
 		<Compile Remove="Pages\Error.cshtml.cs" />

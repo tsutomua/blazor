@@ -81,11 +81,13 @@ internal class Program
             options.FallBackToParentCultures = true;
             options.RequestCultureProviders.Clear();
 
+            // Count functionality works, but pages are not localized.
             options.RequestCultureProviders.Insert(0, new MyRouteDataRequestCultureProvider()
             {
                 Options = options,
             });
 
+            // Count functionality does not work, but pages are localized.
             //options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
         });
 

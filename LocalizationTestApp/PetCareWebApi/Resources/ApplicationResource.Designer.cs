@@ -79,6 +79,15 @@ namespace PetCareWebApi.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Count:.
+        /// </summary>
+        public static string currentCount {
+            get {
+                return ResourceManager.GetString("currentCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home Page.
         /// </summary>
         public static string homePage {

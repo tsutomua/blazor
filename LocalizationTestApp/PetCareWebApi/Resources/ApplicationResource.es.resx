@@ -61,10 +61,13 @@
 	<data name="counter" xml:space="preserve">
     <value>Contrador</value>
   </data>
-	<data name="click" xml:space="preserve">
+  <data name="click" xml:space="preserve">
     <value>Haga Clic</value>
   </data>
-	<data name="homePage" xml:space="preserve">
+   <data name="currentCount" xml:space="preserve">
+    <value>Recuento actual:</value>
+  </data>	
+  <data name="homePage" xml:space="preserve">
     <value>Página principal</value>
   </data>
 	<data name="pageWasNotFound" xml:space="preserve">
