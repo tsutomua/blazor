@@ -1,48 +1,19 @@
 ﻿@page "/"
+@using BlazorLocalizationTest.Resources
+@using Microsoft.Extensions.Localization
+@using Utils
 
-@implements IDisposable
+@inject IStringLocalizer<ApplicationResource> localizer
 
-@* @inject IHttpContextAccessor httpContextAccessor *@
-@inject PersistentComponentState ApplicationState
+<PageTitle>@localizer[Constants.homePage]</PageTitle>
 
+<h1>@localizer[Constants.homePage]</h1>
 
-<PageTitle>Home</PageTitle>
-
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
+@localizer[Constants.homePage]
 
 @code {
-    private int currentCount;
-    private PersistingComponentStateSubscription persistingSubscription;
 
     protected override void OnInitialized()
     {
-        persistingSubscription =
-            ApplicationState.RegisterOnPersisting(PersistCount);
-
-        if (!ApplicationState.TryTakeFromJson<int>(
-            nameof(currentCount), out var restoredCount))
-        {
-            currentCount = Random.Shared.Next(100);
-            // Logger.LogInformation("currentCount set to {Count}", currentCount);
-        }
-        else
-        {
-            currentCount = restoredCount!;
-            // Logger.LogInformation("currentCount restored to {Count}", currentCount);
-        }
     }
-
-    private Task PersistCount()
-    {
-        ApplicationState.PersistAsJson(nameof(currentCount), currentCount);
-
-        return Task.CompletedTask;
-    }
-
-    void IDisposable.Dispose() => persistingSubscription.Dispose();
-
-    private void IncrementCount() => currentCount++;
-    }
+}

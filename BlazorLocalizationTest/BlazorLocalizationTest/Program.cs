@@ -57,7 +57,7 @@ builder.Services.AddLocalization();
 
 IStringLocalizer localizer = builder.Services.BuildServiceProvider().GetService<IStringLocalizer<ApplicationResource>>();
 builder.Services.AddSingleton<ITranslationProvider>(c => new ResXTranslationProvider(localizer));
-
+ 
 builder.Services.AddRouting(options =>
 {
     options.LowercaseUrls = true;
@@ -79,13 +79,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
     // Count functionality works, but pages are not localized.
     options.RequestCultureProviders.Insert(0, new CookieRouteDataRequestCultureProvider()
-    //options.RequestCultureProviders.Insert(0, new MyRouteDataRequestCultureProvider()
     {
         Options = options,
     });
-
-    // Count functionality does not work, but pages are localized.
-    //options.RequestCultureProviders.Insert(0, new CustomRouteDataRequestCultureProvider() { Options = options });
 });
 
 
