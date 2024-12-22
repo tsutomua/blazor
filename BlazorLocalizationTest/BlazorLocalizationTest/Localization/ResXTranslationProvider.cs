@@ -1,3 +1,4 @@
+using BlazorLocalizationTest.Localization;
 using Microsoft.Extensions.Localization;
 
 namespace Core

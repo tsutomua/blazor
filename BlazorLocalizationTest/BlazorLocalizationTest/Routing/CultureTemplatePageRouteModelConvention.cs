@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
-namespace TestLocalization.Helpers.Routing;
+namespace BlazorLocalizationTest.Routing;
 
-public class CultureTemplatePageRouteModelConvention: IPageRouteModelConvention
+public class CultureTemplatePageRouteModelConvention : IPageRouteModelConvention
 {
     public void Apply(PageRouteModel pageRouteModel)
     {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestLocalization.Helpers.Routing;
+namespace BlazorLocalizationTest.Routing;
 
 public class CustomRouteDataRequestCultureProvider : RequestCultureProvider
 {
@@ -17,7 +17,7 @@ public class CustomRouteDataRequestCultureProvider : RequestCultureProvider
 
         var container = new List<string>() { routeCulture, urlCulture };
 
-        string cultureCode = Options.SupportedCultures.Select(c => c.TwoLetterISOLanguageName).SingleOrDefault(c => container.Contains(c) );
+        string cultureCode = Options.SupportedCultures.Select(c => c.TwoLetterISOLanguageName).SingleOrDefault(c => container.Contains(c));
 
         if (string.IsNullOrWhiteSpace(cultureCode) == false)
         {

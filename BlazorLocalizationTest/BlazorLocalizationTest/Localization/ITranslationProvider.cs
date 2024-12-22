@@ -1,4 +1,4 @@
-namespace Core
+namespace BlazorLocalizationTest.Localization
 {
     public interface ITranslationProvider
     {

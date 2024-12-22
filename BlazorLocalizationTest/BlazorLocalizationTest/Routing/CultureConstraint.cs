@@ -8,7 +8,7 @@ using System.Globalization;
 using System.Linq;
 using Utils;
 
-namespace TestLocalization.Helpers.Routing;
+namespace BlazorLocalizationTest.Routing;
 
 public class CultureConstraint : IRouteConstraint
 {

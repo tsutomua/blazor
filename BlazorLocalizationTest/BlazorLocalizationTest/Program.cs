@@ -1,5 +1,7 @@
 using BlazorLocalizationTest.Components;
+using BlazorLocalizationTest.Localization;
 using BlazorLocalizationTest.Resources;
+using BlazorLocalizationTest.Routing;
 using Core;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
