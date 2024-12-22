@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Localization.Routing;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
-using TestLocalization.Helpers.Routing;
 using Utils;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,7 +78,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.RequestCultureProviders.Clear();
 
     // Count functionality works, but pages are not localized.
-    options.RequestCultureProviders.Insert(0, new RouteDataRequestCultureProvider()
+    options.RequestCultureProviders.Insert(0, new CookieRouteDataRequestCultureProvider()
     //options.RequestCultureProviders.Insert(0, new MyRouteDataRequestCultureProvider()
     {
         Options = options,
