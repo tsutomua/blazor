@@ -17,6 +17,7 @@ public class CookieRouteDataRequestCultureProvider : RequestCultureProvider
             previousRouteCulture = routeCulture;
             RequestCulture requestCulture = new RequestCulture(routeCulture, routeCulture);
 
+            // If uncommented, left nav menu breaks after some navigations.
             SetThreadCulture(routeCulture);
 
             string cookieName = CookieRequestCultureProvider.DefaultCookieName;
