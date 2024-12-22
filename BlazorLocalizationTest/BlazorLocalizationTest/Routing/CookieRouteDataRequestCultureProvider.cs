@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
-using System;
+﻿using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BlazorLocalizationTest.Routing;
 
@@ -22,12 +17,10 @@ public class CookieRouteDataRequestCultureProvider : RequestCultureProvider
             previousRouteCulture = routeCulture;
             RequestCulture requestCulture = new RequestCulture(routeCulture, routeCulture);
 
-            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(routeCulture);
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(routeCulture);
+            SetThreadCulture(routeCulture);
 
-            var cookieName = CookieRequestCultureProvider.DefaultCookieName;
-            var cookieValue = CookieRequestCultureProvider.MakeCookieValue(requestCulture);
+            string cookieName = CookieRequestCultureProvider.DefaultCookieName;
+            string cookieValue = CookieRequestCultureProvider.MakeCookieValue(requestCulture);
             httpContext.Response.Cookies.Append(cookieName, cookieValue);
 
             return Task.FromResult(new ProviderCultureResult(routeCulture));
@@ -35,20 +28,25 @@ public class CookieRouteDataRequestCultureProvider : RequestCultureProvider
         // Culture provided in URL
         else if (IsSupportedCulture(urlCulture))
         {
+            SetThreadCulture(urlCulture);
+
             return Task.FromResult(new ProviderCultureResult(urlCulture));
         }
         else
-        // Use default culture
         {
-            CultureInfo culture = Thread.CurrentThread.CurrentCulture;
-            var myCookie = httpContext.Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
-            var splitCookieValue = myCookie.Split("|");
-            var v2 = splitCookieValue.Select(s => s.Split("=")).ToDictionary(s => s[0], s => s[1]);
+            CookieCultureProvider cookieCultureProvider = new CookieCultureProvider(Options.SupportedCultures.ToList());
+            string cultureFromCookieOrDefault = cookieCultureProvider.GetCultureFromCookie(httpContext);
+            SetThreadCulture(cultureFromCookieOrDefault);
 
-            return Task.FromResult(new ProviderCultureResult(v2["uic"]));
-            //return Task.FromResult(new ProviderCultureResult(DefaultCulture));
-            //return Task.FromResult<ProviderCultureResult>(null);
+            return Task.FromResult(new ProviderCultureResult(cultureFromCookieOrDefault));
         }
+    }
+
+    private static void SetThreadCulture(string routeCulture)
+    {
+        CultureInfo cultureInfo = CultureInfo.GetCultureInfo(routeCulture);
+        Thread.CurrentThread.CurrentCulture = cultureInfo;
+        Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(routeCulture);
     }
 
     /**
@@ -62,7 +60,5 @@ public class CookieRouteDataRequestCultureProvider : RequestCultureProvider
                 StringComparison.InvariantCultureIgnoreCase
             )
         );
-
-    private string DefaultCulture => Options.DefaultRequestCulture.Culture.TwoLetterISOLanguageName;
 }
 

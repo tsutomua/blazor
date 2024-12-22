@@ -10,4 +10,8 @@
     <Compile Remove="Routing\BlazorCultureExtractor.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Components\Pages\CounterOriginal.razor" />
+  </ItemGroup>
+
 </Project>

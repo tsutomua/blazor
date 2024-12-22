@@ -1,20 +1,23 @@
-﻿@page "/{culture}/counter"
+﻿@page "/counter"
+@page "/{culture}/counter"
+
 @using BlazorLocalizationTest.Resources
+@using BlazorLocalizationTest.Routing
 @using Microsoft.Extensions.Localization
 @using System.Globalization
+@using Utils
 @inject IHttpContextAccessor httpContextAccessor
-
-@implements IDisposable
+@inject IConfiguration Configuration
 
 @inject IStringLocalizer<ApplicationResource> localizer
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
 
 
-<PageTitle>Counter</PageTitle>
+<PageTitle>@localizer[Constants.counter]</PageTitle>
 @rendermode InteractiveServer
 
-<h1>@localizer["counter"]</h1>
+<h1>@localizer[Constants.counter]</h1>
 
 <p role="status">@localizer["currentCount"] @currentCount</p>
 
@@ -33,56 +36,7 @@
     [Parameter]
     public string? culture { get; set; }
 
-
-    private string currentCulture;
-    private PersistingComponentStateSubscription persistingSubscription;
-
     protected override async Task OnInitializedAsync()
     {
-        var routeValues = httpContextAccessor.HttpContext.Request.RouteValues;
-
-        if (routeValues.Count == 0)
-        {
-            var v = NavigationManager.BaseUri;
-
-        }
-        persistingSubscription =
-             ApplicationState.RegisterOnPersisting(PersistCulture);
-
-        if (!ApplicationState.TryTakeFromJson<string>(
-            nameof(currentCulture), out var restoredCulture))
-        {
-            currentCulture = routeValues["culture"]?.ToString() ?? "en";
-
-
-            // ApplicationState.PersistAsJson(nameof(currentCulture), currentCulture);
-            // ulture = culture;Random.Shared.Next(100);
-            // Logger.LogInformation("currentCulture set to {Count}", currentCulture);
-        }
-        else
-        {
-            currentCulture = restoredCulture!;
-
-            CultureInfo cultureInfo = CultureInfo.GetCultureInfo(currentCulture, true);
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(currentCulture);
-           
-            // NavigationManager.NavigateTo("https:localhost:7068/es/counter", true);
-            NavigationManager.NavigateTo("/");
-            NavigationManager.NavigateTo("es/counter");
-            // NavigationManager.NavigateTo("https:localhost:7068/es/counter", true);
-
-
-            // Logger.LogInformation("currentCulture restored to {Count}", currentCulture);
-        }
     }
-
-    private Task PersistCulture()
-    {
-        ApplicationState.PersistAsJson(nameof(currentCulture), currentCulture);
-
-        return Task.CompletedTask;
-    }
-
-    void IDisposable.Dispose() => persistingSubscription.Dispose();
 }
