@@ -16,3 +16,7 @@
 /BlazorLocalizationTest/BlazorLocalizationTest/obj
 /BlazorLocalizationTest/BlazorLocalizationTest/bin/Release/net8.0
 /BlazorLocalizationTest/BlazorLocalizationTest/Properties/PublishProfiles
+/.vs
+/BlazorLocalizationTest2/.vs
+/BlazorLocalizationTest2/BlazorLocalizationTest2/bin/Debug/net9.0
+/BlazorLocalizationTest2/BlazorLocalizationTest2/obj
