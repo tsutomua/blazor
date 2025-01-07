@@ -1,0 +1,22 @@
+﻿@page "/"
+@page "/{culture}"
+@using BlazorLocalizationTest2.Resources
+@using Microsoft.Extensions.Localization
+@using Utils
+
+@inject IStringLocalizer<ApplicationResource> localizer
+
+<PageTitle>@localizer[Constants.homePage]</PageTitle>
+
+<h1>@localizer[Constants.homePage]</h1>
+
+@localizer[Constants.homePage]
+
+@code {
+    [Parameter]
+    public string? culture { get; set; }
+
+    protected override void OnInitialized()
+    {
+    }
+}

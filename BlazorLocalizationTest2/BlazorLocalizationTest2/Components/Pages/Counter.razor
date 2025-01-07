@@ -1,0 +1,42 @@
+﻿@page "/counter"
+@page "/{culture}/counter"
+
+@using BlazorLocalizationTest.Routing
+@using BlazorLocalizationTest2.Resources
+@using Microsoft.Extensions.Localization
+@using System.Globalization
+@using Utils
+@inject IHttpContextAccessor httpContextAccessor
+@inject IConfiguration Configuration
+
+@inject IStringLocalizer<ApplicationResource> localizer
+@inject PersistentComponentState ApplicationState
+@inject NavigationManager NavigationManager
+
+
+<PageTitle>@localizer[Constants.counter]</PageTitle>
+@rendermode InteractiveServer
+
+<h1>@localizer[Constants.counter]</h1>
+
+<p role="status">@localizer["currentCount"] @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">@localizer["click"]</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
+
+@code {
+    [Parameter]
+    public string? culture { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}
