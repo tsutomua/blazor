@@ -1,7 +1,10 @@
 ﻿@using BlazorLocalizationTest.Resources
+@using Microsoft.AspNetCore.Localization
 @using Microsoft.Extensions.Localization
 @using Utils
 @inject IStringLocalizer<ApplicationResource> localizer
+
+    @inject IHttpContextAccessor httpContextAccessor
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -27,3 +30,20 @@
     </nav>
 </div>
 
+@code {
+    [Parameter]
+    public string? culture { get; set; }
+
+    protected override void OnInitialized()
+    {
+        string? cultureCookie = httpContextAccessor.HttpContext.Request.Cookies[CookieRequestCultureProvider.DefaultCookieName];
+
+        if (cultureCookie == null)
+        {
+            string cookieName = CookieRequestCultureProvider.DefaultCookieName;
+            string cookieValue = CookieRequestCultureProvider.MakeCookieValue(new RequestCulture("en"));
+            httpContextAccessor.HttpContext.Response.Cookies.Append(cookieName, cookieValue);
+        }
+
+    }
+}
