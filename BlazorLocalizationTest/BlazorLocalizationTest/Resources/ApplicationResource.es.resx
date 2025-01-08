@@ -70,6 +70,12 @@
   <data name="homePage" xml:space="preserve">
     <value>Página principal</value>
   </data>
+	<data name="mainImagePath" xml:space="preserve">
+    <value>es/animals.png</value>
+  </data>
+	<data name="mainImageAltText" xml:space="preserve">
+    <value>Animales varios</value>
+  </data>
 	<data name="pageWasNotFound" xml:space="preserve">
     <value>La página no fue encontrada.</value>
   </data>

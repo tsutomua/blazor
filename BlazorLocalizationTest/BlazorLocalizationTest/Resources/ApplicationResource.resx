@@ -64,11 +64,17 @@
 	<data name="click" xml:space="preserve">
     <value>Click</value>
   </data>
-  <data name="currentCount" xml:space="preserve">
+	<data name="currentCount" xml:space="preserve">
     <value>Current Count:</value>
   </data>
 	<data name="homePage" xml:space="preserve">
     <value>Home Page</value>
+  </data>
+	<data name="mainImagePath" xml:space="preserve">
+    <value>en/animals.png</value>
+  </data>
+	<data name="mainImageAltText" xml:space="preserve">
+    <value>Various animals</value>
   </data>
 	<data name="pageWasNotFound" xml:space="preserve">
     <value>The page was not found.</value>
