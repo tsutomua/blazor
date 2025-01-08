@@ -1,5 +1,5 @@
-﻿@page "/"
-@page "/{culture}"
+﻿@page "/{culture:nonfile?}"
+@* @page "/{culture}" *@
 @using BlazorLocalizationTest.Resources
 @using Microsoft.Extensions.Localization
 @using Utils
@@ -16,7 +16,7 @@
     [Parameter]
     public string? culture { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
     }
 }
