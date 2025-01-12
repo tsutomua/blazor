@@ -15,11 +15,25 @@
 <br />
 <br />
 
-<img src="images/@localizer[Constants.mainImagePath]" alt="@localizer[Constants.mainImageAltText]" />
+<p>(Image path from resource file)</p>
+<img src="images/@localizer[Constants.mainImagePath]" alt="@localizer[Constants.mainImageAltText]" height="300" />
+<br>
+<hr>
+<br>
+<p>(Image path without using resource file)</p>
+<img src="images/@_culture/animals.png" alt="@localizer[Constants.mainImageAltText]" height=" 300" />
 
 @code {
+    private string _culture;
+
     [Parameter]
-    public string? culture { get; set; }
+    public string? culture
+    {
+        set 
+        {
+            _culture = value ?? "en";
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {

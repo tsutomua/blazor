@@ -4,4 +4,9 @@
     <ActiveDebugProfile>https</ActiveDebugProfile>
     <NameOfLastUsedPublishProfile>C:\GitHub\blazor\BlazorLocalizationTest\BlazorLocalizationTest\Properties\PublishProfiles\BlazorLocalizationTest - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ApplicationResource.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
