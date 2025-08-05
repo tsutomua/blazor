@@ -23,3 +23,8 @@
 /CookiePolicyApp/CookiePolicyApp/obj
 /CookiePolicyApp/CookiePolicyApp/bin/Debug/net8.0
 /CookiePolicyApp/.vs
+/CookiePolicyAppSampleFromInternet/.vs
+/CookiePolicyAppSampleFromInternet/NetLearner.Blazor/.vs
+/CookiePolicyAppSampleFromInternet/NetLearner.Blazor/bin/Debug
+/CookiePolicyAppSampleFromInternet/NetLearner.Blazor/obj
+/CookiePolicyAppSampleFromInternet/NetLearner.SharedLib/obj
