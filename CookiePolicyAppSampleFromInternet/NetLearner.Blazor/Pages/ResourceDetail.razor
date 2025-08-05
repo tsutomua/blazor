@@ -1,0 +1,122 @@
+﻿@page "/resourcedetail"
+
+@using NetLearner.SharedLib.Data
+@using NetLearner.SharedLib.Models
+@using NetLearner.SharedLib.Services
+@inject ILearningResourceService service
+@inject IJSRuntime jsRuntime
+
+<div class="modal" tabindex="-1" role="dialog" id="taskModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@CustomHeader</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <AuthorizeView>
+                    <Authorized Context="Auth">
+                        <EditForm Model="@LearningResourceObject" OnValidSubmit="@HandleValidSubmit">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary />
+                            <div class="form-group">
+                                <label for="itemName">Learning Resource</label>
+                                <input type="hidden" @bind-value="@LearningResourceObject.Id" />
+                                <InputText id="itemName" class="form-control" @bind-Value="@LearningResourceObject.Name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="itemUrl">Url</label>
+                                <input type="text" id="itemUrl" name="itemUrl" @bind-value="@LearningResourceObject.Url" />
+                            </div>
+                            <div class="form-group">
+                                <label for="itemList">List</label>
+                                <InputSelectNumber id="itemList" @bind-Value="@LearningResourceObject.ResourceListId">
+                                    @foreach (var resourceList in ResourceListValues)
+                                    {
+                                        @if (resourceList.Id == LearningResourceObject.ResourceList.Id)
+                                        {
+                                            <option selected="selected" value="@resourceList.Id">@resourceList.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@resourceList.Id">@resourceList.Name</option>
+                                        }
+                                    }
+                                </InputSelectNumber>
+                            </div>
+                            <div class="form-group">
+                                <label for="contentFeedUrl">Feed Url</label>
+                                <input type="text" id="contentFeedUrl" name="contentFeedUrl" @bind-value="@LearningResourceObject.ContentFeedUrl" />
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </EditForm>
+                    </Authorized>
+                    <NotAuthorized>
+                        <div class="form-group">
+                            Learning Resource:
+                            @LearningResourceObject.Name
+                        </div>
+                        <div>
+                            (Read Only)
+                        </div>
+                    </NotAuthorized>
+                    <Authorizing>
+                        <p>Please wait...</p>
+                    </Authorizing>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public LearningResource LearningResourceObject { get; set; }
+
+    [Parameter]
+    public List<ResourceList> ResourceListValues { get; set; }
+
+    [Parameter]
+    public Action DataChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment CustomHeader { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        LearningResourceObject.ResourceList = new ResourceList();
+    }
+
+    private async Task CloseTaskModal()
+    {
+        await jsRuntime.InvokeAsync<object>("CloseModal", "taskModal");
+    }
+
+    private async void HandleValidSubmit()
+    {
+        if (LearningResourceObject.Id == 0)
+        {
+            var allItems = ResourceListValues.Where(l => l.Id == LearningResourceObject.ResourceListId);
+
+            if (allItems.Count() > 0)
+            {
+                var selectedResourceList = allItems.First();
+                LearningResourceObject.ResourceList = selectedResourceList;
+                await service.Add(LearningResourceObject);
+            } else
+            {
+                return;
+            }
+
+        }
+        else
+        {
+            await service.Update(LearningResourceObject);
+        }
+        await CloseTaskModal();
+        DataChanged?.Invoke();
+    }
+}

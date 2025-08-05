@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetLearner.Blazor", "NetLearner.Blazor\NetLearner.Blazor.csproj", "{5125AE6A-1392-7C41-FD66-CE5E936494FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetLearner.SharedLib", "NetLearner.SharedLib\NetLearner.SharedLib.csproj", "{BD6403D6-590D-8D6D-6343-EA6768B1C5B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5125AE6A-1392-7C41-FD66-CE5E936494FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5125AE6A-1392-7C41-FD66-CE5E936494FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5125AE6A-1392-7C41-FD66-CE5E936494FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5125AE6A-1392-7C41-FD66-CE5E936494FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD6403D6-590D-8D6D-6343-EA6768B1C5B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD6403D6-590D-8D6D-6343-EA6768B1C5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD6403D6-590D-8D6D-6343-EA6768B1C5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD6403D6-590D-8D6D-6343-EA6768B1C5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {549B14A8-D7A3-4B3A-BBE6-AC7033D7815D}
+	EndGlobalSection
+EndGlobal

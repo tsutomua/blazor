@@ -1,0 +1,187 @@
+﻿@page "/learningresources"
+@page "/learningresources/{resourceListId:int}"
+
+@using NetLearner.SharedLib.Data
+@using NetLearner.SharedLib.Models
+@using NetLearner.SharedLib.Services
+@inject ILearningResourceService learningResourceService
+@inject IResourceListService resourceListService
+@inject IJSRuntime jsRuntime
+
+<h1>Learning Resources</h1>
+
+<p>This is a list of Learning Resources!</p>
+
+<div>
+    <AuthorizeView>
+        <Authorized Context="Auth">
+            <input type="button" data-toggle="modal" data-target="#taskModal" class="btn btn-primary" value="Add New Resource" @onclick="(() => InitializeLearningResourceObject())" />
+        </Authorized>
+    </AuthorizeView>
+
+    <input type="button" class="btn btn-primary" value="All Resources" @onclick="(() => DataChanged())" />
+</div>
+@if (learningResources == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Preview</th>
+                <th>List</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var learningResource in learningResources)
+            {
+                <tr>
+                    <td>
+                        <a title="@learningResource.Url"  href="@learningResource.Url">@learningResource.Name</a>
+                    </td>
+                    <td>
+                        @if (isVideo(learningResource.Url))
+                        {
+                            <button class="btn btn-primary" @onclick="(() => OpenModal(learningResource.Url))">Watch</button>
+                        }
+                        else
+                        {
+                    <a title="@learningResource.Url" href="@learningResource.Url">Link</a>
+                        }
+
+                    </td>
+                    <td>
+                        <a href="javascript:void()" @onclick="(() => ShowItemsForList(learningResource.ResourceListId))"> @learningResource.ResourceList.Name</a>
+                    </td>
+                    <td>
+                        <AuthorizeView>
+                            <Authorized Context="Auth">
+                                <input type="button" class="btn btn-primary" @onclick="(() => PrepareForEdit(learningResource))" data-toggle="modal" data-target="#taskModal" value="Edit" />
+                            </Authorized>
+                        </AuthorizeView>
+                    </td>
+                    <td>
+                        <AuthorizeView>
+                            <Authorized Context="Auth">
+                                <input type="button" class="btn btn-danger" @onclick="(() => PrepareForDelete(learningResource))" data-toggle="modal" data-target="#confirmDeleteModal" value="Delete" />
+                            </Authorized>
+                        </AuthorizeView>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<ConfirmDialog OnClick="@Delete" />
+<ResourceDetail LearningResourceObject="learningResourceObject"
+                ResourceListValues="ResourceLists"
+                DataChanged="@DataChanged">
+    <CustomHeader>@customHeader</CustomHeader>
+</ResourceDetail>
+
+<VideoPlayer Title="Video Player" IsOpened="isOpened" VideoUrl="@videoUrl">
+    <ModalX>
+        <span class="blazor-modal-close-button"
+              @onclick="CloseModal">[X] Close Popup</span>
+    </ModalX>
+    <ModalBody>
+        <p>Video</p>
+    </ModalBody>
+    <ModalFooter>
+        &nbsp;
+    </ModalFooter>
+</VideoPlayer>
+
+
+@code {
+    List<LearningResource> learningResources;
+    LearningResource learningResourceObject = new LearningResource();
+    List<ResourceList> ResourceLists = new List<ResourceList>();
+    string customHeader = string.Empty;
+    bool isOpened = false;
+    string videoUrl = string.Empty;
+
+    [Parameter]
+    public int? ResourceListId { get; set; }
+
+    bool isVideo(string fullUrl)
+    {
+        if (fullUrl.Contains("youtube.com") || (fullUrl.Contains("youtu.be")))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ResourceListId != null)
+        {
+            ShowItemsForList(Convert.ToInt32(ResourceListId));
+        }
+        else
+        {
+            learningResources = await learningResourceService.Get();
+            ResourceLists = await resourceListService.Get();
+        }
+    }
+
+    private void InitializeLearningResourceObject()
+    {
+        learningResourceObject = new LearningResource();
+        learningResourceObject.ResourceList = new ResourceList();
+        customHeader = "Add New Item";
+    }
+
+    void OpenModal(string itemUrl)
+    {
+        videoUrl = itemUrl.Replace("/watch?v=", "/embed/");
+        isOpened = true;
+    }
+    void CloseModal()
+    {
+        videoUrl = string.Empty;
+        isOpened = false; ;
+    }
+
+    private async void ShowItemsForList(int resourceListId)
+    {
+        learningResources = await learningResourceService.GetForList(resourceListId);
+        ResourceLists = await resourceListService.Get();
+        StateHasChanged();
+    }
+
+    private async void DataChanged()
+    {
+        learningResources = await learningResourceService.Get();
+        ResourceLists = await resourceListService.Get();
+        StateHasChanged();
+    }
+    private void PrepareForEdit(LearningResource learningResource)
+    {
+        customHeader = "Edit Item";
+        learningResourceObject = learningResource;
+    }
+
+    private void PrepareForDelete(LearningResource learningResource)
+    {
+        learningResourceObject = learningResource;
+    }
+
+    private async Task Delete()
+    {
+        var task = await learningResourceService.Delete(learningResourceObject.Id);
+        await jsRuntime.InvokeAsync<object>("CloseModal", "confirmDeleteModal");
+        learningResources = await learningResourceService.Get();
+        learningResourceObject = new LearningResource();
+        learningResourceObject.ResourceList = new ResourceList();
+    }
+}

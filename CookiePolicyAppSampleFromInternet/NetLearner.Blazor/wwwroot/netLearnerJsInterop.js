@@ -1,11 +1,5 @@
 window.netLearnerJsFunctions = {
     acceptMessage: function (cookieString) {
         document.cookie = cookieString;
-    },
-
-
-    showGreeting: function () {
-        //alert('hi');
-        $("#cookieConsent").fadeOut();
     }
 };
