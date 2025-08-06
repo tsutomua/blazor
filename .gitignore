@@ -28,3 +28,7 @@
 /CookiePolicyAppSampleFromInternet/NetLearner.Blazor/bin/Debug
 /CookiePolicyAppSampleFromInternet/NetLearner.Blazor/obj
 /CookiePolicyAppSampleFromInternet/NetLearner.SharedLib/obj
+/CookiePolicyApp/CookiePolicyApp/bin/Release/net8.0
+/CookiePolicyApp/CookiePolicyApp/Properties/PublishProfiles
+/CookiePolicyApp/CookiePolicyApp/CookiePolicyApp.csproj.user
+/CookiePolicyApp/CookiePolicyApp/Properties/ServiceDependencies/CookiePolicyApp - Web Deploy
