@@ -4,8 +4,7 @@ window.netLearnerJsFunctions = {
     },
 
 
-    showGreeting: function () {
-        //alert('hi');
+    hideMessage: function () {
         $("#cookieConsent").fadeOut();
     }
 };
