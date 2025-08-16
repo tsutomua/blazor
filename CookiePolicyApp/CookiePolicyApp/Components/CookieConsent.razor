@@ -1,23 +1,27 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
 @using Microsoft.AspNetCore.Http
+@using System.Text.Json;
 @implements IAsyncDisposable
 @inject IHttpContextAccessor Http
 @inject IJSRuntime JS
-@* @rendermode InteractiveServer *@
+@rendermode InteractiveServer
 @inject PersistentComponentState ApplicationState
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" 
-    role="alert">
-        Use this space to summarize your privacy and cookie use policy.
-        <a href="/privacy">Privacy Policy</a>
-        <button type="button" @onclick="AcceptPolicy" class="accept-policy close" 
-        data-bs-dismiss="alert" aria-label="Close" 
-        data-cookie-string="@cookieString">
-            Accept
-        </button>
-    </div>
+    @* Do not remove the span tag as it causes an error described in https://stackoverflow.com/questions/60183421/blazor-typeerror-cannot-read-property-removechild-of-null-at-object-e-as-rem  *@
+    <span>
+        <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" 
+        role="alert">
+            Use this space to summarize your privacy and cookie use policy.
+            <a href="/privacy">Privacy Policy</a>
+            <button type="button" @onclick="AcceptPolicy" class="accept-policy close" 
+                data-bs-dismiss="alert" aria-label="Close"
+            data-cookie-string="@cookieString">
+                Accept
+            </button>
+        </div>
+     </span>
 }
 @code {
     private IJSObjectReference? module;
@@ -50,6 +54,15 @@
                 {
                     cookieString = null; // Default to null if not found
                 }
+
+                if (ApplicationState.TryTakeFromJson("module", out string? restoredModule))
+                {
+                    module = JsonSerializer.Deserialize<IJSObjectReference>(restoredModule);
+                }
+                else
+                {
+                    module = null; // Default to null if not found
+                }
             }
         }
         else
@@ -65,11 +78,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        // if (firstRender)
-        // {
+        if (firstRender)
+        {
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Components/CookieConsent.razor.js");
-        // }
+        }
     }
 
     private Task PersistData()
@@ -77,6 +90,10 @@
         ApplicationState.PersistAsJson("IsSecondPass", "True"); // Replace with your data and key
         ApplicationState.PersistAsJson("showBanner", showBanner.ToString()); // Persist the data variable
         ApplicationState.PersistAsJson("cookieString", cookieString); // Persist the cookie string
+
+        // May not be needed.
+        ApplicationState.PersistAsJson("module", JsonSerializer.Serialize(module)); // Persist the data variable
+
         return Task.CompletedTask;
     }
 
