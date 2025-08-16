@@ -3,41 +3,81 @@
 @implements IAsyncDisposable
 @inject IHttpContextAccessor Http
 @inject IJSRuntime JS
-@rendermode InteractiveServer
+@* @rendermode InteractiveServer *@
+@inject PersistentComponentState ApplicationState
 
 @if (showBanner)
 {
-        <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" 
-            role="alert">
-            Use this space to summarize your privacy and cookie use policy.
-            <a href="/privacy">Privacy Policy</a>
-            <button type="button" @onclick="AcceptPolicy" class="accept-policy close" 
-                data-bs-dismiss="alert" aria-label="Close" 
-                data-cookie-string="@cookieString">
-                Accept
-            </button>
-        </div>
+    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" 
+    role="alert">
+        Use this space to summarize your privacy and cookie use policy.
+        <a href="/privacy">Privacy Policy</a>
+        <button type="button" @onclick="AcceptPolicy" class="accept-policy close" 
+        data-bs-dismiss="alert" aria-label="Close" 
+        data-cookie-string="@cookieString">
+            Accept
+        </button>
+    </div>
 }
 @code {
     private IJSObjectReference? module;
     private ITrackingConsentFeature? consentFeature;
     private bool showBanner;
     private string? cookieString;
+    private bool isSecondPass;
+    // private string? myDataVariable; Variable to hold your data
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        consentFeature = Http.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        showBanner = !consentFeature?.CanTrack ?? false;
-        cookieString = consentFeature?.CreateConsentCookie();
+        if (ApplicationState.TryTakeFromJson("IsSecondPass", out string? restoredIsSecondPass)) // Replace with your data type and key
+        {
+            if (bool.TryParse(restoredIsSecondPass, out isSecondPass))
+            {
+                if (ApplicationState.TryTakeFromJson("showBanner", out string? restoredShowBanner))
+                {
+                    showBanner = bool.Parse(restoredShowBanner);
+                }
+                else
+                {
+                    showBanner = true; // Default to true if not found
+                }
+
+                if (ApplicationState.TryTakeFromJson("cookieString", out string? restoredCookieString))
+                {
+                    cookieString = restoredCookieString;
+                }
+                else
+                {
+                    cookieString = null; // Default to null if not found
+                }
+            }
+        }
+        else
+        {
+            // Get values in the first pass.
+            consentFeature = Http.HttpContext?.Features.Get<ITrackingConsentFeature>();
+            showBanner = !consentFeature?.CanTrack ?? false;
+            cookieString = consentFeature?.CreateConsentCookie();
+
+            ApplicationState.RegisterOnPersisting(PersistData);
+        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-        {
+        // if (firstRender)
+        // {
             module = await JS.InvokeAsync<IJSObjectReference>("import",
                 "./Components/CookieConsent.razor.js");
-        }
+        // }
+    }
+
+    private Task PersistData()
+    {
+        ApplicationState.PersistAsJson("IsSecondPass", "True"); // Replace with your data and key
+        ApplicationState.PersistAsJson("showBanner", showBanner.ToString()); // Persist the data variable
+        ApplicationState.PersistAsJson("cookieString", cookieString); // Persist the cookie string
+        return Task.CompletedTask;
     }
 
     private async Task AcceptPolicy()
@@ -51,6 +91,8 @@
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
+        // If uncommented, the error below will occur when the accept button is pressed.
+        // System.InvalidOperationException: TypeError: Cannot read properties of null (reading 'removeChild') at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
         if (module is not null)
         {
             try
